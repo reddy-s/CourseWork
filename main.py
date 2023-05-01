@@ -9,7 +9,6 @@ import warnings
 
 import numpy as np
 import torch
-import torch.backends.cudnn as cudnn
 import torch.nn as nn
 from args import argument_parser, dataset_kwargs, optimizer_kwargs, lr_scheduler_kwargs
 from src import models
@@ -42,7 +41,7 @@ def main():
     set_random_seed(args.seed)
     if not args.use_avai_gpus:
         os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_devices
-    use_gpu = torch.cuda.is_available()
+    use_gpu = torch.has_mps
     if args.use_cpu:
         use_gpu = False
     log_name = "log_test.txt" if args.evaluate else "log_train.txt"
@@ -51,7 +50,7 @@ def main():
 
     if use_gpu:
         print(f"Currently using GPU {args.gpu_devices}")
-        cudnn.benchmark = True
+        # cudnn.benchmark = True
     else:
         warnings.warn("Currently using CPU, however, GPU is highly recommended")
 
@@ -72,7 +71,7 @@ def main():
     if args.load_weights and check_isfile(args.load_weights):
         load_pretrained_weights(model, args.load_weights)
 
-    model = nn.DataParallel(model).cuda() if use_gpu else model
+    model = nn.DataParallel(model).to(torch.device("mps")) if use_gpu else model
 
     criterion_xent = CrossEntropyLoss(
         num_classes=dm.num_train_pids, use_gpu=use_gpu, label_smooth=args.label_smooth
@@ -183,7 +182,7 @@ def train(
         data_time.update(time.time() - end)
 
         if use_gpu:
-            imgs, pids = imgs.cuda(), pids.cuda()
+            imgs, pids = imgs.to(torch.device("mps")), pids.to(torch.device("mps"))
 
         outputs, features = model(imgs)
         if isinstance(outputs, (tuple, list)):
@@ -245,7 +244,7 @@ def test(
         qf, q_pids, q_camids = [], [], []
         for batch_idx, (imgs, pids, camids, _) in enumerate(queryloader):
             if use_gpu:
-                imgs = imgs.cuda()
+                imgs = imgs.to(torch.device("mps"))
 
             end = time.time()
             features = model(imgs)
@@ -268,7 +267,7 @@ def test(
         gf, g_pids, g_camids = [], [], []
         for batch_idx, (imgs, pids, camids, _) in enumerate(galleryloader):
             if use_gpu:
-                imgs = imgs.cuda()
+                imgs = imgs.to(torch.device("mps"))
 
             end = time.time()
             features = model(imgs)
