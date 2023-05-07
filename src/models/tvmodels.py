@@ -12,7 +12,10 @@ class TorchVisionModel(nn.Module):
         super().__init__()
 
         self.loss = loss
-        self.backbone = tvmodels.__dict__[name](pretrained=pretrained)
+        if name == "AlexNet":
+            self.backbone = tvmodels.__dict__[name]()
+        else:
+            self.backbone = tvmodels.__dict__[name](pretrained=pretrained)
         self.feature_dim = self.backbone.classifier[0].in_features
 
         # overwrite the classifier used for ImageNet pretrianing
@@ -63,6 +66,7 @@ def alex_net(num_classes, loss={"xent"}, pretrained=True, **kwargs):
         "AlexNet",
         num_classes=num_classes,
         loss=loss,
+        pretrained=pretrained,
         **kwargs,
     )
     return model
