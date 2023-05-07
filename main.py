@@ -42,8 +42,9 @@ def main():
     set_random_seed(args.seed)
     if not args.use_avai_gpus:
         os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_devices
+    print(f"[DEBUG] Cuda.is_initialised: {torch.cuda.is_initialized()}")
     print(f"[DEBUG] Cuda.is_available: {torch.cuda.is_available()}")
-    use_gpu = torch.cuda.is_available()
+    use_gpu = True
     if args.use_cpu:
         use_gpu = False
     log_name = "log_test.txt" if args.evaluate else "log_train.txt"

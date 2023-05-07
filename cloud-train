@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python main.py \
+python3 main.py \
 -s veri \
 -t veri \
 -a $MODEL \
