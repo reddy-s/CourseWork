@@ -1,0 +1,16 @@
+#!/bin/bash
+
+python main.py \
+-s veri \
+-t veri \
+-a $MODEL \
+--root /root/data
+--height 224 \
+--width 224 \
+--optim amsgrad \
+--lr 0.0003 \
+--max-epoch 2 \
+--stepsize 10 20 \
+--train-batch-size 256 \
+--test-batch-size 100 \
+--save-dir logs/$MODEL

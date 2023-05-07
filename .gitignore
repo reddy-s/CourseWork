@@ -168,3 +168,6 @@ tags
 /transformers
 
 datasets/*
+
+# Security
+.secrets/
