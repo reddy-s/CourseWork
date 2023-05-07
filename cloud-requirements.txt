@@ -12,4 +12,4 @@ torch==1.13.1
 torchaudio==0.13.1
 torchvision==0.14.1
 typing_extensions==4.5.0
-urllib3==2.0.2
+urllib3==1.26.13
