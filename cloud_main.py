@@ -62,7 +62,7 @@ class ModelArgs:
     num_instances = 4
     lambda_xent = 1
     lambda_htri = 1
-    arch = 'googLeNet'
+    arch = 'alex_net'
     no_pretrained = False
     load_weights = ''
     evaluate = False
@@ -73,7 +73,7 @@ class ModelArgs:
     print_freq = 10
     seed = 1
     resume = ''
-    save_dir = 'logs/googLeNet'
+    save_dir = 'logs/alex_net'
     use_cpu = False,
     gpu_devices = '0'
     visualize_ranks = False

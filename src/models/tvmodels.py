@@ -63,7 +63,6 @@ def alex_net(num_classes, loss={"xent"}, pretrained=True, **kwargs):
         "AlexNet",
         num_classes=num_classes,
         loss=loss,
-        pretrained=pretrained,
         **kwargs,
     )
     return model
