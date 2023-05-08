@@ -8,4 +8,4 @@ cd CourseWork
 
 python3 main.py -s veri -t veri -a resnet50 --root /home/ec2-user --height 224 --width 224 --optim amsgrad --lr 0.0003 --max-epoch 1 --stepsize 10 20 --train-batch-size 256 --gpu-devices 4 --test-batch-size 100 --save-dir logs/resnet50
 
-aws s3 cp --recursive ./logs/resnet50_fc512 s3://ml-workflow/models/resnet50_fc512_i44 && rm -rf logs/*
+aws s3 cp --recursive ./logs/resnet50_fc512 s3://ml-workflow/models/resnet50_fc512_i46 && rm -rf logs/*
