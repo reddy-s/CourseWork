@@ -38,9 +38,9 @@ class ModelArgs:
     height = 224
     width = 224
     train_sampler = 'RandomSampler'
-    random_erase = False
-    color_jitter = False
-    color_aug = False
+    random_erase = True
+    color_jitter = True
+    color_aug = True
     optim = 'adam'
     lr = 0.0003
     weight_decay = 0.0005
