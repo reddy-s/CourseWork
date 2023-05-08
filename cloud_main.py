@@ -41,7 +41,7 @@ class ModelArgs:
     random_erase = False
     color_jitter = False
     color_aug = False
-    optim = 'amsgrad'
+    optim = 'adam'
     lr = 0.0003
     weight_decay = 0.0005
     momentum = 0.9
@@ -52,17 +52,17 @@ class ModelArgs:
     adam_beta2 = 0.999
     max_epoch = 30
     start_epoch = 0
-    train_batch_size = 256
+    train_batch_size = 64
     test_batch_size = 100
     lr_scheduler = 'multi_step'
-    stepsize = [10, 20]
+    stepsize = [20, 40]
     gamma = 0.1
     label_smooth = False
     margin = 0.3
     num_instances = 4
     lambda_xent = 1
     lambda_htri = 1
-    arch = 'alex_net'
+    arch = 'resnet50_fc512'
     no_pretrained = False
     load_weights = ''
     evaluate = False
@@ -73,7 +73,7 @@ class ModelArgs:
     print_freq = 10
     seed = 1
     resume = ''
-    save_dir = 'logs/alex_net'
+    save_dir = 'logs/resnet50_fc512'
     use_cpu = False,
     gpu_devices = '0'
     visualize_ranks = False
@@ -310,5 +310,4 @@ def test(
     if return_distmat:
         return distmat
     return cmc[0]
-
 
