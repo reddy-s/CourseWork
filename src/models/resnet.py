@@ -135,12 +135,12 @@ class ResNet(nn.Module):
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
         self.layer1 = self._make_layer(block, 64, layers[0])
-        # self.layer2 = self._make_layer(block, 128, layers[1], stride=2)
-        # self.layer3 = self._make_layer(block, 256, layers[2], stride=2)
-        self.layer2 = self._make_layer(block, 512, layers[1], stride=last_stride)
-        # self.layer5 = self._make_layer(block, 1024, layers[4], stride=2) # new
-        # self.layer6 = self._make_layer(block, 1024, layers[5], stride=2) # new
-        # self.layer7 = self._make_layer(block, 512, layers[6], stride=last_stride) # new
+        self.layer2 = self._make_layer(block, 128, layers[1], stride=2)
+        self.layer3 = self._make_layer(block, 256, layers[2], stride=2)
+        self.layer4 = self._make_layer(block, 512, layers[3], stride=2)
+        self.layer5 = self._make_layer(block, 1024, layers[4], stride=2) # new
+        self.layer6 = self._make_layer(block, 1024, layers[5], stride=2) # new
+        self.layer7 = self._make_layer(block, 512, layers[6], stride=last_stride) # new
 
         self.global_avgpool = nn.AdaptiveAvgPool2d(1)
         self.fc = self._construct_fc_layer(fc_dims, 512 * block.expansion, dropout_p)
@@ -223,8 +223,11 @@ class ResNet(nn.Module):
         x = self.maxpool(x)
         x = self.layer1(x)
         x = self.layer2(x)
-        # x = self.layer3(x)
-        # x = self.layer4(x)
+        x = self.layer3(x)
+        x = self.layer4(x)
+        x = self.layer5(x)
+        x = self.layer6(x)
+        x = self.layer7(x)
         return x
 
     def forward(self, x):
@@ -361,7 +364,7 @@ def resnet50_fc512(num_classes, loss={"xent"}, pretrained=True, **kwargs):
         num_classes=num_classes,
         loss=loss,
         block=Bottleneck,
-        layers=[3, 4], # new 3, 3, 4 should be 3, 4, 6, 3
+        layers=[3, 4, 6, 3, 3, 3, 4], # new 3, 3, 4 should be 3, 4, 6, 3
         last_stride=1,
         fc_dims=[512],
         dropout_p=None,
