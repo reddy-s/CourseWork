@@ -138,6 +138,9 @@ class ResNet(nn.Module):
         self.layer2 = self._make_layer(block, 128, layers[1], stride=2)
         self.layer3 = self._make_layer(block, 256, layers[2], stride=2)
         self.layer4 = self._make_layer(block, 512, layers[3], stride=last_stride)
+        self.layer5 = self._make_layer(block, 1024, layers[4], stride=last_stride) # new
+        self.layer6 = self._make_layer(block, 1024, layers[5], stride=last_stride) # new
+        self.layer7 = self._make_layer(block, 512, layers[6], stride=last_stride) # new
 
         self.global_avgpool = nn.AdaptiveAvgPool2d(1)
         self.fc = self._construct_fc_layer(fc_dims, 512 * block.expansion, dropout_p)
@@ -358,7 +361,7 @@ def resnet50_fc512(num_classes, loss={"xent"}, pretrained=True, **kwargs):
         num_classes=num_classes,
         loss=loss,
         block=Bottleneck,
-        layers=[3, 4, 6, 3],
+        layers=[3, 4, 6, 3, 3, 3, 4], # new 3, 3, 4
         last_stride=1,
         fc_dims=[512],
         dropout_p=None,
